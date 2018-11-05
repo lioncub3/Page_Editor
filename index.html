@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="w3.css" />
+    <link rel="stylesheet" href="codemirror.css"/>
+    <link rel="stylesheet" href="eclipse.css"/>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <section class="w3-conteiner" id="pages_app">
+        <h2>Pages site</h2>
+        <button @click="addPageShowModal" class="w3-btn w3-round-xxlarge w3-blue w3-right btnOpen">New page</button>
+        <table id="dataPages" class="w3-table w3-striped w3-table-all">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>URL</th>
+                    <th>Language</th>
+                    <th>Version</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                 <tr v-for="(page, index) in pages">
+                    <td>{{ page.name }}</td>
+                    <td>{{ page.code }}</td>
+                    <td> {{ page.url }}</td>
+                    <td>{{ page.lang.length }}</td>
+                    <td>{{ page.ver }}</td>
+                    <td>
+                        <a v-bind:href="'edit.html?idPage=' + index" class="w3-btn">Edit</a>
+                        <!-- <button @click="editPageShowModal" v-bind:data-index="index" class="w3-btn">Edit</button> -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div v-bind:style="{display:showPageAddDisplay}" class="w3-modal">
+            <div class="w3-modal-content">
+                <header class="w3-container w3-blue">
+                    <span @click="hideAddPageModal" class="w3-button w3-display-topright">&times;</span>
+                    <h2>Create new page</h2>
+                </header>
+
+                <div class="w3-container">
+                    <label class="w3-text-blue modal-label-text">Name:</label>
+                    <input v-model="addName" class="w3-input w3-border" type="text">
+                    <label class="w3-text-blue modal-label-text">Code:</label>
+                    <input v-model="addCode" class="w3-input w3-border" type="text">
+                    <label class="w3-text-blue modal-label-text">Version:</label>
+                    <input v-model="addVersion" class="w3-input w3-border" type="number">
+                    <label class="w3-text-blue modal-label-text">URL:</label>
+                    <input v-model="addUrl" class="w3-input w3-border" type="text">
+                    <label>Language template(
+                        <span></span>)</label>
+                    </div>
+
+                    <footer class="w3-container w3-blue">
+                        <button @click="newPage" class="w3-btn w3-round-xxlarge w3-white w3-right">Submit</button>
+                    </footer>
+                </div>
+            </div>
+            <div v-bind:style="{display:showPageEditDisplay}" class="w3-modal">
+                <div class="w3-modal-content">
+                    <header class="w3-container w3-blue">
+                        <span @click="hideEditPageModal" class="w3-button w3-display-topright">&times;</span>
+                        <h2>Edit page</h2>
+                    </header>
+
+                    <div class="w3-container">
+                        <label class="w3-text-blue modal-label-text">Name:</label>
+                        <input v-model="editName" class="w3-input w3-border" type="text">
+                        <label class="w3-text-blue modal-label-text">Code:</label>
+                        <input v-model="editCode" class="w3-input w3-border" type="text">
+                        <label class="w3-text-blue modal-label-text">Version:</label>
+                        <input v-model="editVersion" class="w3-input w3-border" type="number">
+                        <label class="w3-text-blue modal-label-text">URL:</label>
+                        <input v-model="editUrl" class="w3-input w3-border" type="text">
+                        <button @click="openETemp" type="button" class="w3-button">Edit template</button>
+                        <button @click="openECSS" type="button" class="w3-button">Edit CSS</button>
+                        <button @click="openEJS" type="button" class="w3-button">Edit JS</button>
+                        <label>Language template(<span></span>)</label>
+                        <button @click="btnEditValueLang" type="button" class="w3-button">Edit</button>
+                    </div>
+
+                    <footer class="w3-container w3-blue">
+                        <button @click="submitEdit" class="w3-btn w3-round-xxlarge w3-white w3-right">Save</button>
+                    </footer>
+                </div>
+            </div>
+            <div id="editTemlateModal" class="w3-modal">
+                <div class="w3-modal-content">
+                    <header class="w3-container w3-blue">
+                        <span @click="closeETemp" class="w3-button w3-display-topright">&times;</span>
+                        <h2>Edit temlate</h2>
+                    </header>
+
+                    <div class="w3-container">
+                        <label class="w3-text-blue modal-label-text">Temlate:</label>
+                        <div id="textTemplate"></div>
+                    </div>
+
+                    <footer class="w3-container w3-blue">
+                        <button @click="closeETemp" class="w3-btn w3-round-xxlarge w3-white w3-right">OK</button>
+                    </footer>
+                </div>
+            </div>
+            <div id="editCSSModal" class="w3-modal">
+                <div class="w3-modal-content">
+                    <header class="w3-container w3-blue">
+                        <span @click="closeECSS" class="w3-button w3-display-topright">&times;</span>
+                        <h2>Edit CSS</h2>
+                    </header>
+
+                    <div class="w3-container">
+                        <label class="w3-text-blue modal-label-text">CSS:</label>
+                        <div id="textCSS"></div>
+                    </div>
+
+                    <footer class="w3-container w3-blue">
+                        <button @click="closeECSS" class="w3-btn w3-round-xxlarge w3-white w3-right">OK</button>
+                    </footer>
+                </div>
+            </div>
+            <div id="editJSModal" class="w3-modal">
+                <div class="w3-modal-content">
+                    <header class="w3-container w3-blue">
+                        <span @click="closeEJS" class="w3-button w3-display-topright">&times;</span>
+                        <h2>Edit JS</h2>
+                    </header>
+
+                    <div class="w3-container">
+                        <label class="w3-text-blue modal-label-text">JS:</label>
+                        <div id="textJS"></div>
+                    </div>
+
+                    <footer class="w3-container w3-blue">
+                        <button @click="closeEJS" class="w3-btn w3-round-xxlarge w3-white w3-right">OK</button>
+                    </footer>
+                </div>
+            </div>
+            <div v-bind:style="{display:showPageEditLandTemplate}" class="w3-modal">
+                <div class="w3-modal-content">
+                    <header class="w3-container w3-blue">
+                        <span @click="buttonCloseTL" class="w3-button w3-display-topright">&times;</span>
+                        <h2>Edit language template</h2>
+                    </header>
+
+                    <div class="w3-container">
+                        <label class="w3-text-blue modal-label-text">Language:</label>
+                        <table id="dataLangTemp" class="w3-table w3-striped w3-table-all">
+                            <thead>
+                                <tr>
+                                    <th>Language</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <footer class="w3-container w3-blue">
+                        <button @click="buttonCloseTL" class="w3-btn w3-round-xxlarge w3-white w3-right">OK</button>
+                    </footer>
+                </div>
+            </div>
+            <div id="editValueLangModal" class="w3-modal">
+                <div class="w3-modal-content">
+                    <header class="w3-container w3-blue">
+                        <span class="btnCloseLTM w3-button w3-display-topright">&times;</span>
+                        <h2>Edit language template</h2>
+                    </header>
+
+                    <div class="w3-container">
+                        <label class="w3-text-blue modal-label-text">Language:</label>
+                        <table id="dataValueLangTemp" class="w3-table w3-striped w3-table-all">
+                            <thead>
+                                <tr>
+                                    <th>Key</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <footer class="w3-container w3-blue">
+                        <button class="btnCloseLTM w3-btn w3-round-xxlarge w3-white w3-right">OK</button>
+                    </footer>
+                </div>
+            </div>
+        </section>
+        <script src="codemirror.js"></script>
+        <script src="javascript.js"></script>
+        <script src="htmlmixed.js"></script>
+        <script src="xml.js"></script>
+        <script src="css.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <script src="script.js"></script>
+    </body>
+
+    </html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="w3.css" />
+    <link rel="stylesheet" href="codemirror.css"/>
+    <link rel="stylesheet" href="eclipse.css"/>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <section id="pages_app" class="w3-conteiner">
+        <h2>Edit page</h2>
+        <label class="w3-text-blue modal-label-text">Name:</label>
+        <input v-model="editName" class="w3-input w3-border" type="text">
+        <label class="w3-text-blue modal-label-text">Code:</label>
+        <input v-model="editCode" class="w3-input w3-border" type="text">
+        <label class="w3-text-blue modal-label-text">Version:</label>
+        <input v-model="editVersion" class="w3-input w3-border" type="number">
+        <label class="w3-text-blue modal-label-text">URL:</label>
+        <input v-model="editUrl" class="w3-input w3-border" type="text">
+        <button @click="openETemp" type="button" class="w3-button w3-red">Edit template</button>
+        <button @click="openECSS" type="button" class="w3-button w3-yellow">Edit CSS</button>
+        <button @click="openEJS" type="button" class="w3-button w3-green">Edit JS</button>
+        <label>Language template(
+            <span></span>)</label>
+        </div>
+        <button @click="submitEdit" class="w3-btn w3-round-xxlarge w3-orange w3-right">Save</button>
+
+        <div id="editTemlateModal" class="w3-modal">
+            <div class="w3-modal-content">
+                <header class="w3-container w3-blue">
+                    <span @click="closeETemp" class="w3-button w3-display-topright">&times;</span>
+                    <h2>Edit temlate</h2>
+                </header>
+
+                <div class="w3-container">
+                    <label class="w3-text-blue modal-label-text">Temlate:</label>
+                    <div id="textTemplate"></div>
+                </div>
+
+                <footer class="w3-container w3-blue">
+                    <button @click="saveETemp" class="w3-btn w3-round-xxlarge w3-white w3-right">OK</button>
+                </footer>
+            </div>
+        </div>
+        <div id="editCSSModal" class="w3-modal">
+            <div class="w3-modal-content">
+                <header class="w3-container w3-blue">
+                    <span @click="closeECSS" class="w3-button w3-display-topright">&times;</span>
+                    <h2>Edit CSS</h2>
+                </header>
+
+                <div class="w3-container">
+                    <label class="w3-text-blue modal-label-text">CSS:</label>
+                    <div id="textCSS"></div>
+                </div>
+
+                <footer class="w3-container w3-blue">
+                    <button @click="saveECSS" class="w3-btn w3-round-xxlarge w3-white w3-right">OK</button>
+                </footer>
+            </div>
+        </div>
+        <div id="editJSModal" class="w3-modal">
+            <div class="w3-modal-content">
+                <header class="w3-container w3-blue">
+                    <span @click="closeEJS" class="w3-button w3-display-topright">&times;</span>
+                    <h2>Edit JS</h2>
+                </header>
+
+                <div class="w3-container">
+                    <label class="w3-text-blue modal-label-text">JS:</label>
+                    <div id="textJS"></div>
+                </div>
+
+                <footer class="w3-container w3-blue">
+                    <button @click="saveEJS" class="w3-btn w3-round-xxlarge w3-white w3-right">OK</button>
+                </footer>
+            </div>
+        </div>
+    </section>
+    <script src="codemirror.js"></script>
+    <script src="javascript.js"></script>
+    <script src="htmlmixed.js"></script>
+    <script src="xml.js"></script>
+    <script src="css.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="editpage.js"></script>
+</body>
+
+</html>
